@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-    "dist": "rm -rf dist && mkdir dist && npm run build && cp styles.css versions.json manifest.json dist/",
+    "dist": "rm -rf dist && mkdir dist && npm run build && cp styles.css versions.json manifest.json dist && cp dist/styles.css dist/manifest.json dist/main.js '/Users/zhaihao/Documents/ORISON/.obsidian/plugins/obsidian-metatable'",
     "docs": "npm run dist && cp dist/* docs/.obsidian/plugins/obsidian-metatable && cp CHANGELOG.md docs/changelog.md",
     "release": "node support/version-bump.mjs",
     "test": "jest --passWithNoTests"

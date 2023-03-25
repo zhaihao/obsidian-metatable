@@ -6,8 +6,8 @@ import { isInternalLink, InternalLink, Link as ILink } from "./InternalLink"
 import { isExternalLink, ExternalLink, Link as ELink } from "./ExternalLink"
 
 
-const ISODATE_RE = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
-const MD_LINK_RE = new RegExp(/^\[(?<label>[^\[\]]+)\]\((?<url>[^\(\)]+)\)$/)
+const ISODATE_RE = new RegExp(/^\d{4}-\d{2}-\d{2}\s*(\d{2}:\d{2}:\d{2})?$/)
+const MD_LINK_RE = new RegExp(/^\[(?<label>[^\[\]]+)]\((?<url>[^()]+)\)$/)
 
 
 export function Leaf(props: { key: string, value: LeafValue }) {
@@ -22,7 +22,11 @@ export function Leaf(props: { key: string, value: LeafValue }) {
       </Match>
 
       <Match when={typeof value === "boolean"}>
-        <span class="leaf boolean" part="leaf boolean">{value!.toString()}</span>
+        {/*<span class="leaf boolean" part="leaf boolean">{value!.toString()}</span>*/}
+        {value!.toString().toLowerCase() == "true" &&
+          <span class="leaf boolean" part="leaf boolean">◉</span>}
+        {value!.toString().toLowerCase() == "false" &&
+          <span class="leaf boolean" part="leaf boolean">○</span>}
       </Match>
 
       <Match when={key == "tags"}>

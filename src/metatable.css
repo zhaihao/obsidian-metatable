@@ -4,8 +4,8 @@
   --metatable-font-size: 14px;
 
   /* symbols */
-  --metatable-collapsed-symbol: "▶︎";
-  --metatable-expanded-symbol: "▼";
+  --metatable-collapsed-symbol: "✂︎";
+  --metatable-expanded-symbol: "";
   --metatable-mark-symbol: "…";
   --metatable-tag-symbol: "";
   --metatable-alias-symbol: "‡";
@@ -85,7 +85,7 @@
   /* leafs */
   --metatable-leaf-number-color: purple;
   --metatable-leaf-boolean-color: slateblue;
-  --metatable-leaf-date-color: darkolivegreen;
+  --metatable-leaf-date-color: #2a790b;
   --metatable-leaf-nil-color: inherit;
 
   /* warning */
@@ -133,6 +133,10 @@
   font-size: var(--metatable-font-size);
 
   user-select: text;
+  opacity: 0.55;
+}
+.root:hover {
+  opacity: 0.7;
 }
 
 .metatable-sidebar {
@@ -147,8 +151,40 @@ details {
   margin-bottom: 20px;
 }
 
-summary+* {
-  margin-top: 10px;
+summary {
+  background: var(--metatable-summary-background);
+  color: #000000;
+  cursor: pointer;
+
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: 10px auto;
+}
+
+summary::before {
+  display: block;
+  font-size: 10px;
+  padding-top: 0.2rem;
+  content: var(--metatable-collapsed-symbol);
+}
+
+details[open] summary::before {
+  padding-top: 0.2rem;
+  content: var(--metatable-expanded-symbol);
+}
+
+summary:focus,
+summary:focus-visible {
+  background: #ffffff;
+  outline: none;
+}
+
+summary + * {
+  margin-top: 20px;
+}
+
+summary {
+  user-select: none;
 }
 
 .metatable-sidebar>.summary {
@@ -159,8 +195,8 @@ summary+* {
 
 .set {
   background: var(--metatable-set-background);
-  color: var(--metatable-set-color);
-
+  color: #000000;
+  padding-left: 1rem;
   display: grid;
   grid-gap: 2px;
 }
@@ -172,7 +208,8 @@ summary+* {
   grid-gap: 2px;
   display: grid;
   grid-template-areas: "key value";
-  grid-template-columns: minmax(0, 2fr) minmax(0, 4fr);
+  /*grid-template-columns: 150px minmax(100px,600px);*/
+  grid-template-columns: 150px minmax(0, 4fr);
 }
 
 .member:nth-child(even) {
@@ -277,7 +314,85 @@ summary+* {
 
 .list {
   margin: 0;
-  padding: 0 0 0 16px;
+  /*padding: 0 0 0 16px;*/
+  padding: 0 0 0 0;
+}
+
+p.list span {
+  margin-right: 0.2rem;
+}
+
+/*p.list span span {*/
+/*  background-color: rgba(0, 0, 0, 0.05);*/
+/*  padding: 2px;*/
+/*  font-size: 0.8em;*/
+/*  border-radius: 5px;*/
+/*  border: 1px rgba(0, 0, 0, 0.1) solid;*/
+/*}*/
+
+p.list span span {
+  padding: 2px;
+  font-size: 0.8em;
+  border-radius: 4px;
+}
+
+p.list span[id$="-0"] span {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px rgba(255, 0, 0, 0.2) solid;
+}
+
+p.list span[id$="-1"] span {
+  background-color: rgba(255, 255, 0, 0.1);
+  border: 1px rgba(255, 69, 0, 0.2) solid;
+}
+
+p.list span[id$="-2"] span {
+  background-color: rgba(0, 128, 0, 0.1);
+  border: 1px rgba(0, 128, 0, 0.2) solid;
+}
+
+p.list span[id$="-3"] span {
+  background-color: rgba(0, 0, 255, 0.1);
+  border: 1px rgba(0, 0, 255, 0.2) solid;
+}
+
+p.list span[id$="-4"] span {
+  background-color: rgba(128, 0, 128, 0.1);
+  border: 1px rgba(128, 0, 128, 0.2) solid;
+}
+
+p.list span[id$="-5"] span {
+  background-color: rgba(255, 165, 0, 0.1);
+  border: 1px rgba(255, 165, 0, 0.2) solid;
+}
+
+p.list span[id$="-6"] span {
+  background-color: rgba(199, 21, 133, 0.1);
+  border: 1px rgba(199, 21, 133, 0.2) solid;
+}
+
+p.list span[id$="-7"] span {
+  background-color: rgba(127, 255, 0, 0.1);
+  border: 1px rgba(127, 255, 0, 0.2) solid;
+}
+
+p.list span[id$="-8"] span {
+  background-color: rgba(0, 255, 255, 0.1);
+  border: 1px rgba(0, 255, 255, 0.2) solid;
+}
+
+p.list span[id$="-9"] span {
+  background-color: rgba(102, 0, 255, 0.1);
+  border: 1px rgba(102, 0, 255, 0.2) solid;
+}
+
+p.list span[id^='aliases'] span {
+  background-color: #fff;
+  padding: 0;
+  font-size: 1em;
+  border-radius: 0;
+  border: none;
+  margin-right: 1rem;
 }
 
 .list-item {
@@ -321,22 +436,25 @@ summary+* {
 .external-link {
   background: var(--metatable-external-link-background);
   color: var(--metatable-external-link-color);
-
+  text-decoration: none;
+  border-bottom: 1px var(--metatable-external-link-color) dashed;
+  line-height: 1.1;
   display: inline-block;
   white-space: nowrap;
 }
 
-.external-link::after {
-  content: var(--metatable-external-link-icon);
+/*.external-link::after {*/
+/*  content: var(--metatable-external-link-icon);*/
 
-  display: inline-block;
-  margin-left: 0.3rem;
-  vertical-align: sub;
-}
+/*  display: inline-block;*/
+/*  margin-left: 0.3rem;*/
+/*  vertical-align: sub;*/
+/*}*/
 
 .external-link:hover {
   background: var(--metatable-external-link-background-hover);
   color: var(--metatable-external-link-color-hover);
+  border-bottom: 1px var(--metatable-external-link-color) solid;
 }
 
 .external-link:focus,
@@ -379,15 +497,11 @@ summary+* {
 }
 
 .tag {
-  background: var(--metatable-tag-background);
-  color: var(--metatable-tag-color);
-  border: var(--metatable-tag-border);
-
-  display: block;
-  border-radius: 16px;
-  margin: 0;
-  padding: 0 10px;
+  background-color: #fb233c1a;
+  color: #fa243c;
   text-decoration: none;
+  padding: 0.25em 0.65em;
+  border-radius: 2em;
 }
 
 .tag::before {
@@ -440,3 +554,83 @@ summary+* {
   flex-direction: column;
   align-items: center;
 }
+
+.value[id^="version"] {
+  color: #fa243c;
+}
+
+tr.member:has(.key[title="name"]) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='%232C2C2C' fill-rule='evenodd' d='M3.3 6A2.7 2.7 0 016 3.3h12A2.7 2.7 0 0120.7 6v12a2.7 2.7 0 01-2.7 2.7H6A2.7 2.7 0 013.3 18V6zM6 4.7A1.3 1.3 0 004.7 6v12A1.3 1.3 0 006 19.3h12a1.3 1.3 0 001.3-1.3V6A1.3 1.3 0 0018 4.7H6z' clip-rule='evenodd'%3E%3C/path%3E%3Cpath fill='%232C2C2C' fill-rule='evenodd' d='M7.3 9a.7.7 0 01.7-.7h5a.7.7 0 010 1.4H8a.7.7 0 01-.7-.7z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E") !important;
+  position: relative;
+  top: 0.2em;
+  margin-left: -0.08em !important;
+  margin-right: 0.2em;
+}
+tr.member:has(.key[title="aliases"]) > th:before, tr.member:has(.key[title="alias"]) > th:before {
+  content: url("data:image/svg+xml,%3Csvg class='icon' width='13' height='13' fill='%232C2C2C' style='vertical-align: middle; overflow: hidden;' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='10423'%3E%3Cpath d='M853.333333 170.666667H170.666667c-46.933333 0-85.333333 38.4-85.333334 85.333333v512c0 46.933333 38.4 85.333333 85.333334 85.333333h682.666666c46.933333 0 85.333333-38.4 85.333334-85.333333V256c0-46.933333-38.4-85.333333-85.333334-85.333333zM213.333333 512h85.333334c23.466667 0 42.666667 19.2 42.666666 42.666667s-19.2 42.666667-42.666666 42.666666H213.333333c-23.466667 0-42.666667-19.2-42.666666-42.666666s19.2-42.666667 42.666666-42.666667z m341.333334 256H213.333333c-23.466667 0-42.666667-19.2-42.666666-42.666667s19.2-42.666667 42.666666-42.666666h341.333334c23.466667 0 42.666667 19.2 42.666666 42.666666s-19.2 42.666667-42.666666 42.666667z m256 0h-85.333334c-23.466667 0-42.666667-19.2-42.666666-42.666667s19.2-42.666667 42.666666-42.666666h85.333334c23.466667 0 42.666667 19.2 42.666666 42.666666s-19.2 42.666667-42.666666 42.666667z m0-170.666667h-341.333334c-23.466667 0-42.666667-19.2-42.666666-42.666666s19.2-42.666667 42.666666-42.666667h341.333334c23.466667 0 42.666667 19.2 42.666666 42.666667s-19.2 42.666667-42.666666 42.666666z' p-id='10424'%3E%3C/path%3E%3C/svg%3E") !important;
+  position: relative;
+  top: 0.2em;
+  margin-left: 0 !important;
+  margin-right: 0.2em;
+}
+
+tr.member:has(.key[title="tags"]) > th:before, tr.member:has(.key[title="tag"]) > th:before {
+  content: url("data:image/svg+xml,%3Csvg class='icon' width='12' height='12' fill='%232C2C2C' style='vertical-align: middle; overflow: hidden;' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='3432'%3E%3Cpath d='M995.126867 635.046667l-360.08 360.08a53.333333 53.333333 0 0 1-71.333334 3.68l356.22-356.22a64 64 0 0 0 0-90.506667L495.8402 128h45.573333a52.986667 52.986667 0 0 1 37.713334 15.62l416 416a53.4 53.4 0 0 1 0 75.426667z m-128-75.426667l-416-416A52.986667 52.986667 0 0 0 413.413533 128H338.846867a361.706667 361.706667 0 0 1 2.486666 42.666667c0 42.713333-7.266667 83.2-20.473333 114-5.146667 12-10.746667 21.546667-16.48 29.08A85.286667 85.286667 0 1 1 256.0002 298.666667c6 0 16.573333-9.64 25.646667-30.806667C292.4602 242.62 298.666867 207.193333 298.666867 170.666667a314.76 314.76 0 0 0-2.873334-42.666667H216.206867c2.82-20.533333 7.653333-39.366667 14.146666-54.526667C239.426867 52.306667 250.0002 42.666667 256.0002 42.666667s16.573333 9.64 25.646667 30.806666c6.493333 15.16 11.333333 34 14.146666 54.526667h43.053334c-3.166667-26.56-9.286667-51.046667-18-71.333333C299.733533 7.333333 271.153533 0 256.0002 0s-43.733333 7.333333-64.86 56.666667c-8.666667 20.286667-14.82 44.773333-18 71.333333H53.333533a53.393333 53.393333 0 0 0-53.333333 53.333333v360.08a52.986667 52.986667 0 0 0 15.62 37.713334l416 416a53.333333 53.333333 0 0 0 75.426667 0l360.08-360.08a53.4 53.4 0 0 0 0-75.426667z' fill='%235C5C66' p-id='3433'%3E%3C/path%3E%3C/svg%3E") !important;
+  position: relative;
+  top: 0.2em;
+  margin-left: 0.1em !important;
+  margin-right: 0.2em;
+}
+
+tr.member:has(.isodate) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%232C2C2C' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 13a.5.5 0 01-.5-.5v-1a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-1zm4-2a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5h-1zm4 2a.5.5 0 01-.5-.5v-1a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-1zm-8 2a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5h-1zm4 2a.5.5 0 01-.5-.5v-1a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-1zm4-2a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5h-1z'%3E%3C/path%3E%3Cpath fill-rule='evenodd' d='M8.8 4.2h6.4v-.7a.5.5 0 01.5-.5h.6a.5.5 0 01.5.5v.7h1.6a2.4 2.4 0 012.4 2.4v11.8a2.4 2.4 0 01-2.4 2.4H5.6a2.4 2.4 0 01-2.4-2.4V6.6a2.4 2.4 0 012.4-2.4h1.6v-.7a.5.5 0 01.5-.5h.6a.5.5 0 01.5.5v.7zm-4 2.4a.8.8 0 01.8-.8h12.8a.8.8 0 01.8.8v1.1H4.8V6.6zm0 2.7v9.1a.8.8 0 00.8.8h12.8a.8.8 0 00.8-.8V9.3H4.8z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+}
+
+tr.member:has(.leaf.link) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 20 20'%3E%3Cpath fill='%232C2C2C' fill-rule='evenodd' d='M11.65 8.35a.667.667 0 11-.943.943 2.667 2.667 0 00-3.661-.104l-.11.104-2.357 2.357a2.667 2.667 0 003.661 3.875l.11-.104 1.179-1.178a.667.667 0 01.998.88l-.056.062-1.178 1.179a4 4 0 01-5.78-5.528l.123-.129L5.993 8.35a4 4 0 015.657 0zm4.714-4.714a4 4 0 01.123 5.528l-.123.129-2.357 2.357a4 4 0 01-5.657 0 .667.667 0 11.943-.943 2.667 2.667 0 003.661.104l.11-.104 2.357-2.357a2.667 2.667 0 00-3.661-3.875l-.11.104-1.179 1.178a.667.667 0 01-.998-.88l.056-.062 1.178-1.179a4 4 0 015.657 0z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+}
+
+tr.member:has(p.list) > th:before, tr.member:has(span.nil) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%232C2C2C' viewBox='0 0 16 16' style='display: block;  flex-shrink: 0; backface-visibility: hidden;'%3E%3Cpath d='M1.91602 4.83789C2.44238 4.83789 2.87305 4.40723 2.87305 3.87402C2.87305 3.34766 2.44238 2.91699 1.91602 2.91699C1.38281 2.91699 0.952148 3.34766 0.952148 3.87402C0.952148 4.40723 1.38281 4.83789 1.91602 4.83789ZM5.1084 4.52344H14.3984C14.7607 4.52344 15.0479 4.23633 15.0479 3.87402C15.0479 3.51172 14.7607 3.22461 14.3984 3.22461H5.1084C4.74609 3.22461 4.45898 3.51172 4.45898 3.87402C4.45898 4.23633 4.74609 4.52344 5.1084 4.52344ZM1.91602 9.03516C2.44238 9.03516 2.87305 8.60449 2.87305 8.07129C2.87305 7.54492 2.44238 7.11426 1.91602 7.11426C1.38281 7.11426 0.952148 7.54492 0.952148 8.07129C0.952148 8.60449 1.38281 9.03516 1.91602 9.03516ZM5.1084 8.7207H14.3984C14.7607 8.7207 15.0479 8.43359 15.0479 8.07129C15.0479 7.70898 14.7607 7.42188 14.3984 7.42188H5.1084C4.74609 7.42188 4.45898 7.70898 4.45898 8.07129C4.45898 8.43359 4.74609 8.7207 5.1084 8.7207ZM1.91602 13.2324C2.44238 13.2324 2.87305 12.8018 2.87305 12.2686C2.87305 11.7422 2.44238 11.3115 1.91602 11.3115C1.38281 11.3115 0.952148 11.7422 0.952148 12.2686C0.952148 12.8018 1.38281 13.2324 1.91602 13.2324ZM5.1084 12.918H14.3984C14.7607 12.918 15.0479 12.6309 15.0479 12.2686C15.0479 11.9062 14.7607 11.6191 14.3984 11.6191H5.1084C4.74609 11.6191 4.45898 11.9062 4.45898 12.2686C4.45898 12.6309 4.74609 12.918 5.1084 12.918Z'%3E%3C/path%3E%3C/svg%3E") !important;
+  position: relative;
+  top: 0.2em;
+  margin-left: 0 !important;
+  margin-right: 0.2em;
+}
+
+tr.member:has(.leaf.boolean) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='%232C2C2C' d='M16.06 9.42a.7.7 0 10-1.12-.84l-3.968 5.292-1.933-2.32a.7.7 0 10-1.076.896l2.5 3a.7.7 0 001.098-.028l4.5-6z'%3E%3C/path%3E%3Cpath fill='%232C2C2C' fill-rule='evenodd' d='M6 3.3A2.7 2.7 0 003.3 6v12A2.7 2.7 0 006 20.7h12a2.7 2.7 0 002.7-2.7V6A2.7 2.7 0 0018 3.3H6zM4.7 6A1.3 1.3 0 016 4.7h12A1.3 1.3 0 0119.3 6v12a1.3 1.3 0 01-1.3 1.3H6A1.3 1.3 0 014.7 18V6z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+}
+
+tr.member:has(.leaf.number) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='%232C2C2C' fill-rule='evenodd' d='M10.292 4.606a.8.8 0 10-1.586-.211L8.266 7.7H5.499a.8.8 0 100 1.6h2.553l-.72 5.4H4.5a.8.8 0 000 1.6h2.62l-.413 3.095a.8.8 0 001.586.211l.441-3.306h5.386l-.413 3.095a.8.8 0 001.586.211l.441-3.306H18.5a.8.8 0 000-1.6h-2.553l.72-5.4H19.5a.8.8 0 000-1.6h-2.62l.413-3.094a.8.8 0 10-1.586-.211l-.44 3.305H9.88l.412-3.094zm4.04 10.094l.72-5.4H9.666l-.72 5.4h5.386z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+}
+tr.member > th[title='version']:before {
+  content: url("data:image/svg+xml,%3Csvg class='icon' width='14' height='14' fill='%232C2C2C' style='vertical-align: middle;fill: currentColor;overflow: hidden;' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='1991'%3E%3Cpath d='M512 958.016C266.08 958.016 65.984 757.952 65.984 512 65.984 266.08 266.08 65.984 512 65.984c245.952 0 446.016 200.064 446.016 446.016 0 245.952-200.064 446.016-446.016 446.016z m0-828.032c-210.656 0-382.016 171.36-382.016 382.016 0 210.624 171.36 382.016 382.016 382.016 210.624 0 382.016-171.36 382.016-382.016S722.624 129.984 512 129.984zM464 304a1.5 1.5 0 1 0 96 0 1.5 1.5 0 1 0-96 0zM512 768c-17.664 0-32-14.304-32-32V448c0-17.664 14.336-32 32-32s32 14.336 32 32v288c0 17.696-14.336 32-32 32z' p-id='1992'%3E%3C/path%3E%3C/svg%3E") !important;
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+  margin-left: 0;
+}
+
+tr.member:has(span.leaf.string) > th:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 18 18'%3E%3Cpath fill='%234B4B4B' d='M2.25 4.5A.75.75 0 013 3.75h12a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75zm0 4.5A.75.75 0 013 8.25h12a.75.75 0 010 1.5H3A.75.75 0 012.25 9zm0 4.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75z'%3E%3C/path%3E%3C/svg%3E");
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.2em;
+  margin-left: 0;
+}
+
+

@@ -33,7 +33,7 @@ export function Inline(props: InlineProps) {
         </Match>
         <Match when={metadata !== undefined}>
           <details open={isOpen(0)} class="metatable root" part="root">
-            <summary part="summary">Metatable</summary>
+            <summary part="summary">Metadata</summary>
             <Metatable data={metadata as Value} />
           </details>
         </Match>

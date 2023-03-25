@@ -24,7 +24,8 @@ export default function Member(props: MemberProps) {
         <tr class="member" part="member">
           <Switch>
             <Match when={!isLeaf(props.value)}>
-              <Key target={props.id} expanded={isOpen(depth())}>{props.key}</Key>
+              {/*<Key target={props.id} expanded={isOpen(depth())}>{props.key}</Key>*/}
+              <th class="key" part="key" title={props.key}>{props.key}</th>
               <td class="value" part="value" id={props.id}>
                 <Value key={props.key} depth={depth()} value={data()} />
                 <Marker />

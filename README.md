@@ -1,5 +1,9 @@
 ## Obsidian Metatable
 
+```bash
+git remote add upstream git@github.com:arnau/obsidian-metatable.git
+```
+
 A plugin for [Obsidian] to display the full frontmatter block instead of just the list of tags.
 
 ![screenshot](screenshot.png)
